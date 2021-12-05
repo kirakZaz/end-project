@@ -72,11 +72,14 @@
             })
         });
 
-        const err = document.getElementById('regErrors')
+        const err = document.getElementById('regErrorsLogin')
         clearError(err)
 
         if (response.ok === true) {
             window.location.replace("/users");
+        } else {
+            const error = await response.json();
+            createError(error, 'regErrorsLogin')
         }
     }
 
@@ -99,12 +102,13 @@
                 password: pass
             })
         });
+        const err = document.getElementById('regErrorsRegister')
+        clearError(err)
         if (response.ok === true) {
-            // window.location.replace("/signin");
-            console.log('fine')
-        }  else {
+            window.location.replace("/main");
+            // console.log('fine')
+        } else {
             const error = await response.json();
-            console.log('err', error)
             createError(error, 'regErrorsRegister')
         }
     }

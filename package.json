@@ -1,4 +1,13 @@
 {
+  "name": "End project",
+  "version": "1.0.0",
+  "description": "end project by Kira",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node app.js"
+  },
+  "author": "Kira Zakirova",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -21,6 +30,8 @@
     "babel-preset-env": "^1.7.0",
     "dotenv": "^10.0.0",
     "jsonwebtoken": "^8.5.1",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "socket.io": "^4.4.0",
+    "socket.io-client": "^4.4.0"
   }
 }

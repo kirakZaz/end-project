@@ -1,23 +1,25 @@
-const http = require("http");
-const express = require("express");
-const logger = require("morgan");
+const dotenv = require("dotenv");
+
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
+const express = require("express");
+
+const app = new express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+
+const logger = require("morgan");
 
 const db = require("./models");
-
 const mongoRouter = require("./routes");
 
 const swaggerDocument = require("./config/swagger.json");
 
-const dotenv = require("dotenv");
 dotenv.config();
 require("dotenv").config();
 
 const hostname = process.env.DB_HOST;
 const port = process.env.PORT || 5000;
-const app = express();
-const server = http.createServer(app);
 
 function main() {
   app.use(logger("dev"));
@@ -36,18 +38,19 @@ function main() {
 
   app.use("/api/", mongoRouter);
 
+  io.on("connection", function (socket) {
+    socket.on("stream", function (image) {
+      socket.broadcast.emit("stream", image);
+    });
+  });
+
   app.get("/", function (request, response) {
     response.sendFile(__dirname + "/views/registration.html");
   });
-  // app.get("/signin", function (request, response) {
-  //   response.sendFile(__dirname + "/server/views/login.html");
-  // });
-  // app.get("/users", function (request, response) {
-  //   response.sendFile(__dirname + "/server/views/users.html");
-  // });
-  // app.get("/tokens", function (request, response) {
-  //   response.sendFile(__dirname + "/server/views/tokens.html");
-  // });
+  app.get("/main", function (request, response) {
+    response.sendFile(__dirname + "/views/main.html");
+  });
+
   db.mongoose
     .connect(db.url, {
       useNewUrlParser: true,
@@ -55,7 +58,7 @@ function main() {
     })
     .then(() => {
       console.log("Connected to the database!");
-      server.listen(port, hostname, () => {
+      http.listen(port, hostname, () => {
         console.log(`Server running at http://${hostname}:${port}/`);
       });
     })
