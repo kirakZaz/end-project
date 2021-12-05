@@ -1,0 +1,36 @@
+body {
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+.form-style {
+    min-width: 250px;
+    max-width: 400px;
+    height: auto;
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 0 20px 20px;
+    margin: 15vh auto 0;
+}
+
+.form-input {
+    width: 100%;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.button {
+    background: black;
+    color: #fff;
+    border: 1px solid black;
+}
+
+.button:hover {
+    background: #fff;
+    color: black;
+    border: 1px solid black;
+}

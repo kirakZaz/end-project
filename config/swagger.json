@@ -1,0 +1,305 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Express API for Lesson 3",
+    "version": "1.0.0",
+    "description": "This is a REST API application made with Express.",
+    "license": {
+      "name": "Licensed Under MIT",
+      "url": "https://spdx.org/licenses/MIT.html"
+    },
+    "contact": {
+      "name": "Kira Za",
+      "email": "kirka.zaz@gmail.com"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Users actions"
+    },
+    {
+      "name": "Tokens",
+      "description": "Tokens actions"
+    }
+  ],
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": [
+        "username", "email", "role"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Token": {
+      "type": "object",
+      "required": ["username", "token"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "schemes": ["http", "https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/users": {
+      "post":{
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create user",
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user",
+        "description": "Update new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User was updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID that we want to get",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "summary": "Get one user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID that we want to delete",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "summary": "Delete one user",
+        "responses": {
+          "200": {
+            "description": "User was deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/tokens": {
+      "post":{
+        "tags": [
+          "Tokens"
+        ],
+        "summary": "Create token",
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "body",
+            "description": "Token that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Token is created",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Tokens"
+        ],
+        "summary": "Get all tokens in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tokens"
+            }
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Tokens"
+        ],
+        "summary": "Update token",
+        "description": "Update new token in system",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "body",
+            "description": "Token that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Token was updated",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          }
+        }
+      }
+    },
+    "/api/tokens/{id}": {
+      "get": {
+        "tags": [
+          "Tokens"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Token ID that we want to get",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "summary": "Get one token",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tokens"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Token ID that we want to delete",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "summary": "Delete one token",
+        "responses": {
+          "200": {
+            "description": "Token was deleted successfully"
+          }
+        }
+      }
+    }
+  }
+}

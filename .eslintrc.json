@@ -1,0 +1,31 @@
+{
+  "ecmaFeatures": {
+    "modules": true,
+    "spread" : true,
+    "restParams" : true,
+    "jsx": true
+  },
+  "env" : {
+    "browser" : true,
+    "node" : true,
+    "es6" : true
+  },
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules" : {
+    "no-undef" : 2,
+    "semi": "error",
+    "comma-dangle": 0,
+    "no-unused-vars": "warn",
+    "no-console": 1,
+    "no-unexpected-multiline": "warn"
+  }
+}

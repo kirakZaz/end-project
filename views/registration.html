@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>login</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css" /></head>
+<body>
+<div id="registrationDiv">
+    <form name="singup" class="form-style" action="/api/auth/signup" method="post" enctype="application/x-www-form-urlencoded">
+        <h1>Register</h1>
+        <input class="form-input" type="text" name="username" placeholder="Username" required><br><br>
+        <input class="form-input" type="text" name="email" placeholder="Email" required><br><br>
+        <input class="form-input" type="password" name="password" placeholder="Password" required><br><br>
+
+        <div id="regErrorsRegister" style="color:red"></div>
+
+        <input class="form-input button" type="submit" value="Send"><br><br>
+        <a onclick="goToLogin()">Log in</a>
+    </form>
+</div>
+
+<div id="loginDiv" style="display:none">
+    <form name="singin" class="form-style" action="/api/auth/signin" method="post" enctype="application/x-www-form-urlencoded">
+        <h1>Log in</h1>
+        <input class="form-input" type="text" name="email" placeholder="Email" required><br><br>
+        <input class="form-input" type="password" name="password" placeholder="Password" required><br><br>
+
+        <div id="regErrorsLogin" style="color:red"></div>
+
+        <input class="form-input button" type="submit" value="Send"><br><br>
+        <a onclick="goToReg()">Registration</a>
+    </form>
+</div>
+
+</body>
+
+<script>
+    function createError(error, div) {
+        const spanErr = document.createElement("span")
+        spanErr.style.marginBottom = '10px'
+        spanErr.style.display = 'block'
+        spanErr.textContent = error.message
+        const err = document.getElementById(div)
+        err.appendChild(spanErr)
+    }
+    function clearError(err) {
+        while (err.firstChild) {
+            err.removeChild(err.lastChild);
+        }
+    }
+
+    const goToLogin = () => {
+        const usersPage = document.getElementById('loginDiv')
+        usersPage.style.display = 'block'
+        const tokensPage = document.getElementById('registrationDiv')
+        tokensPage.style.display = 'none'
+    }
+    const goToReg = () => {
+        const usersPage = document.getElementById('registrationDiv')
+        usersPage.style.display = 'block'
+        const tokensPage = document.getElementById('loginDiv')
+        tokensPage.style.display = 'none'
+    }
+
+    async function logInn(email, pass) {
+        const response = await fetch("api/auth/signin", {
+            method: "POST",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: email,
+                password: pass
+            })
+        });
+
+        const err = document.getElementById('regErrors')
+        clearError(err)
+
+        if (response.ok === true) {
+            window.location.replace("/users");
+        }
+    }
+
+    document.forms["singin"].addEventListener("submit", e => {
+        e.preventDefault();
+        const form = document.forms["singin"];
+        const email = form.elements["email"].value;
+        const pass = form.elements["password"].value;
+        logInn(email, pass)
+
+    });
+
+    async function signUp(userName, email, pass) {
+        const response = await fetch("api/auth/signup", {
+            method: "POST",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: userName,
+                email: email,
+                password: pass
+            })
+        });
+        if (response.ok === true) {
+            // window.location.replace("/signin");
+            console.log('fine')
+        }  else {
+            const error = await response.json();
+            console.log('err', error)
+            createError(error, 'regErrorsRegister')
+        }
+    }
+
+    document.forms["singup"].addEventListener("submit", e => {
+        e.preventDefault();
+        const form = document.forms["singup"];
+        const name = form.elements["username"].value;
+        const email = form.elements["email"].value;
+        const pass = form.elements["password"].value;
+        signUp(name, email, pass)
+
+    });
+</script>
+</html>
