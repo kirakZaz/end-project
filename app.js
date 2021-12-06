@@ -44,11 +44,35 @@ function main() {
     });
   });
 
+  const users = [];
+  io.on("connection", function (socket) {
+    console.log("A user connected");
+    // socket.on("setUsername", function (data) {
+    //   if (users.indexOf(data) === -1) {
+    //     users.push(data);
+    //     socket.emit("userSet", { username: data });
+    //   } else {
+    //     socket.emit(
+    //       "userExists",
+    //       data + " username is taken! Try some other username."
+    //     );
+    //   }
+    // });
+
+    socket.on("msg", function (data) {
+      //Send message to everyone
+      io.sockets.emit("newmsg", data);
+    });
+  });
+
   app.get("/", function (request, response) {
     response.sendFile(__dirname + "/views/registration.html");
   });
   app.get("/main", function (request, response) {
     response.sendFile(__dirname + "/views/main.html");
+  });
+  app.get("/users", function (request, response) {
+    response.sendFile(__dirname + "/views/users.html");
   });
 
   db.mongoose

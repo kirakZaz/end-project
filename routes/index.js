@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-router.use("/user", require("./user"));
+router.use("/users", require("./users"));
 router.use("/tokens", require("./tokens"));
 router.use("/auth", require("./auth"));
 

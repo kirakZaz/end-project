@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
-const tokenKey = process.env.TOKEN_KEY;
-
 exports.signup = async (req, res) => {
   try {
     const re = /\S+@\S+\.\S+/;
@@ -38,10 +36,10 @@ exports.signup = async (req, res) => {
       password: bcrypt.hashSync(req.body.password, 8),
     });
 
-    console.log("tokenKey", tokenKey);
-    const token = jwt.sign({ id: user.id }, tokenKey, {
+    const token = jwt.sign({ id: user.id }, process.env.TOKEN_KEY, {
       expiresIn: 86400, // 24 hours
     });
+    res.cookie("user", user._id);
 
     await Token.create({
       _id: mongoose.Types.ObjectId(),
@@ -73,9 +71,13 @@ exports.signin = async (req, res) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
-      const token = jwt.sign({ user_id: user._id, email }, tokenKey, {
-        expiresIn: "2h",
-      });
+      const token = jwt.sign(
+        { user_id: user._id, email },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
       Token.create({
         _id: mongoose.Types.ObjectId(),
         username: user.username,
