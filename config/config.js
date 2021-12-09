@@ -1,3 +1,3 @@
 exports.model = {
-    secret: "bezkoder-secret-key"
+  secret: "bezkoder-secret-key",
 };
