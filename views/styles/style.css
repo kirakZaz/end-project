@@ -1,7 +1,10 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     background: #f2e2ce;
     position: relative;
     font-family: Arial, sans-serif;
@@ -36,6 +39,13 @@ body {
 .header .linkText {
     color: #e98074;
     margin-left: 10px;
+    margin-right: 10px;
+    background: no-repeat;
+    border: none;
+    padding: 0;
+}
+.header .linkText:hover {
+    color: #e85a4f;
 }
 
 .mainDiv {
@@ -43,7 +53,6 @@ body {
     background: #8e8d8a;
     padding: 15px;
     display: flex;
-    align-items: end;
     justify-content: space-between;
 }
 
@@ -61,6 +70,12 @@ body {
     border: 0.5px solid #8e8d8a;
 }
 
+.mainDivUsers td {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
 .mainDivUsers .table-bordered {
     background: #f8f6f3;
 }
@@ -73,11 +88,13 @@ body {
 .panel-body button {
     background: #e98074;
     border-color: #e85a4f;
+    color: #eae7dc;
 }
 
 .panel-body button:hover {
     background: #e85a4f;
     border-color: #e85a4f;
+    color: #eae7dc;
 }
 
 .editLink {
@@ -97,6 +114,16 @@ body {
     width: 60%;
     height: 450px;
     background: #000;
+    position: relative;
+}
+
+
+div#logger {
+    position: absolute;
+    bottom: 4px;
+    color: #8e8d8a;
+    font-size: 12px;
+    left: 35%;
 }
 
 .videoDiv video {
@@ -113,6 +140,7 @@ body {
     padding: 0 20px 20px;
     margin: 15vh auto 0;
     border-radius: 20px;
+    box-shadow: 0px 0px 10px 0px #8e8d8a;
 }
 
 .form-style h1, .form-style a {
@@ -125,6 +153,7 @@ body {
     box-sizing: border-box;
     border-radius: 6px;
     border: 1px solid #e85a4f;
+    height: 34px;
 }
 
 .button {
@@ -137,4 +166,92 @@ body {
     background: #f2e2ce;
     color: #e85a4f;
     border: 1px solid #e85a4f;
+}
+
+.chatDiv {
+    width: 40%;
+    padding-left: 2%;
+    display: flex;
+    flex-flow: column;
+}
+
+div#message-container {
+    height: 92%;
+    background: #e98074;
+    color: #f2e2ce;
+    display: flex;
+    flex-flow: column;
+    justify-content: end;
+    padding: 10px;
+}
+
+.chatDiv .chatForm {
+    height: 8%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.chatDiv .chatForm input {
+    width: 70%;
+    height: 100%;
+    border: 0;
+    padding: 6px 12px;
+    margin-right: 2%;
+    background: #f2e2ce;
+    color: #e85a4f;
+}
+
+.chatDiv .chatForm input::placeholder {
+    color: #e85a4f;
+}
+
+.chatDiv .chatForm button {
+    background: #e85a4f;
+    color: #f2e2ce;
+    width: 25%;
+    border: 0;
+    height: 100%;
+}
+
+.mainDivUsers h2 {
+    margin: 20px auto 20px;
+    text-align: center;
+    color: #e85a4f;
+}
+
+form.tokenForm, form.userForm {
+    padding: 20px;
+    border: 1px solid #e85a4f;
+    border-radius: 10px;
+    width: 40%;
+    margin: 0 auto 30px;
+    min-width: 440px;
+}
+
+form.tokenForm .panel-body, form.userForm .panel-body{
+    padding: 0;
+    display: flex;
+    justify-content: end;
+}
+
+form.tokenForm button, form.userForm button {
+    width: 49%;
+}
+
+button.add {
+    margin-right: 2%;
+    background: #e85a4f;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e85a4f;
+    border-radius: 20px;
+    height: 5px;
+    width: 5px;
 }

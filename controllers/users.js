@@ -1,6 +1,10 @@
 const Users = require("../models/users");
+const Message = require("../models/messages");
+
+const Token = require("../models/tokens");
 const validator = require("validator");
 const mongoose = require("mongoose");
+const { validationResult } = require("express-validator");
 
 exports.findAll = (req, res) => {
   try {
@@ -46,6 +50,13 @@ exports.create = (req, res) => {
     let { username, password, role, email } = req.body;
     let _id = mongoose.Types.ObjectId();
 
+    const errors = validationResult(req);
+    if (errors) {
+      console.log("errors", errors);
+      if (!errors.isEmpty())
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     Users.create({ _id, username, password, role, email }, (err, user) => {
       if (err)
         res
@@ -58,19 +69,76 @@ exports.create = (req, res) => {
   }
 };
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   try {
-    let { id, username, password, role, email } = req.body;
-    Users.findOneAndUpdate(
-      { _id: id },
-      { $set: { username, password, role, email } },
-      { new: true },
-      (err, user) => {
-        if (err)
-          res.status(400).json({ success: false, error: "Can't update user!" });
-        res.json({ data: user });
+    let { id, username, email } = req.body;
+
+    Users.find({}, async (err, users) => {
+      const userExist = users.find(
+        (user) => user._id.toString() === id.toString()
+      );
+
+      if (!userExist) {
+        console.log("No user found!");
+        return;
       }
-    );
+
+      Message.find({}, (err, res) => {
+        res.forEach((message) => {
+          if (message.email === userExist.email) {
+            Message.findOneAndUpdate(
+              { _id: message._id },
+              {
+                $set: {
+                  email,
+                  message,
+                  username,
+                },
+              },
+              (err, response) => {
+                console.log("response", response);
+              }
+            );
+          }
+        });
+      });
+
+      Token.find({}, (err, res) => {
+        res.forEach((token) => {
+          if (token.email === userExist.email) {
+            Message.findOneAndUpdate(
+              { _id: token._id },
+              {
+                $set: {
+                  email: email,
+                  message: "ertertert",
+                  username: username,
+                },
+              },
+              (err, response) => {
+                console.log("response", response);
+              }
+            );
+          }
+        });
+      });
+
+      let doc1 = await Users.findOneAndUpdate(
+        { _id: id },
+        { $set: { username, password: userExist.password, email } },
+        { new: true },
+        (err, user) => {
+          if (err) {
+            res
+              .status(400)
+              .json({ success: false, error: "Can't update user!" });
+          }
+          res.json({ data: user });
+        }
+      );
+
+      console.log("doc1", doc1);
+    });
   } catch (e) {
     res.status(401).json({ error: "Unauthorized action!" });
   }

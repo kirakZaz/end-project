@@ -1,25 +1,17 @@
-module.exports = (app) => {
-  const token = require("../controllers/token.js");
+const express = require("express");
+const router = express.Router();
+const { tokenDeleteValidation, tokenCreateValidation, tokenUpdateValidation } = require('../middleware/tokensMiddleWare');
 
-  const router = require("express").Router();
-  app.get("/api/tokens", token.findAll);
-  // Create a new User
-  router.post("/", token.create);
+const controller = require("../controllers/tokens");
 
-  // Retrieve all token
-  router.get("/tokens", token.findAll);
+router.get("/", controller.findAll);
 
-  // Retrieve a single User with id
-  router.get("/:id", token.findOne);
+router.post("/", tokenCreateValidation, controller.create);
 
-  // Update a User with id
-  router.put("/:id", token.update);
+router.get("/:id", controller.findOne);
 
-  // Delete a User with id
-  router.delete("/:id", token.delete);
+router.put("/:id", tokenUpdateValidation, controller.update);
 
-  // Create a new User
-  router.delete("/", token.deleteAll);
+router.delete("/:id", controller.delete);
 
-  app.use("/api/tokens", router);
-};
+module.exports = router;

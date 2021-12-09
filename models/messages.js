@@ -1,17 +1,18 @@
 const mongoose = require("mongoose");
 const user = require("./users");
 
-const tokensSchema = mongoose.Schema(
+const messagesSchema = mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
     email: { type: String, ref: "User" },
-    token: String,
+    message: String,
+    username: { type: String, ref: "User" },
   },
   {
     versionKey: false, // Unable auto-version after persist database
   }
 );
 
-const Tokens = mongoose.model("Tokens", tokensSchema);
+const Messages = mongoose.model("Messages", messagesSchema);
 
-module.exports = Tokens;
+module.exports = Messages;

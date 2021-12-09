@@ -1,7 +1,5 @@
 const db = require("../models");
-const jwt = require("jsonwebtoken");
 const User = db.user;
-const tokenKey = process.env.TOKEN_KEY;
 
 const checkDuplicateUsernameOrEmail = (req, res, next) => {
   // Username
@@ -37,25 +35,8 @@ const checkDuplicateUsernameOrEmail = (req, res, next) => {
   });
 };
 
-const verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
-
-  if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
-  }
-
-  jwt.verify(token, tokenKey, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({ message: "Unauthorized!" });
-    }
-    req.userId = decoded.id;
-    next();
-  });
-};
-
 const verifySignUp = {
   checkDuplicateUsernameOrEmail,
-  verifyToken,
 };
 
 module.exports = verifySignUp;

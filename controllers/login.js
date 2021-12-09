@@ -78,7 +78,8 @@ exports.signin = async (req, res) => {
           expiresIn: "2h",
         }
       );
-      Token.create({
+
+      await Token.create({
         _id: mongoose.Types.ObjectId(),
         username: user.username,
         email: email,
@@ -86,7 +87,7 @@ exports.signin = async (req, res) => {
       });
       // save user token
       user.token = token;
-      res.cookie("userID", user._id);
+
       // user
       res.status(200).json(user);
     }

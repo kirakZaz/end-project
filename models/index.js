@@ -11,5 +11,6 @@ db.url = dbConfig.url;
 
 db.user = require("./users");
 db.token = require("./tokens");
+db.message = require("./messages");
 
 module.exports = db;
