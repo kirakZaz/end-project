@@ -83,59 +83,61 @@ exports.update = async (req, res) => {
         return;
       }
 
-      Message.find({}, (err, res) => {
-        res.forEach((message) => {
-          if (message.email === userExist.email) {
-            Message.findOneAndUpdate(
-              { _id: message._id },
-              {
-                $set: {
-                  email,
-                  message,
-                  username,
-                },
-              },
-              (err, response) => {
-                console.log("response", response);
-              }
-            );
-          }
-        });
-      });
-
-      Token.find({}, (err, res) => {
-        res.forEach((token) => {
-          if (token.email === userExist.email) {
-            Message.findOneAndUpdate(
-              { _id: token._id },
-              {
-                $set: {
-                  email: email,
-                  message: "ertertert",
-                  username: username,
-                },
-              },
-              (err, response) => {
-                console.log("response", response);
-              }
-            );
-          }
-        });
-      });
+      // Message.find({}, (err, resMessage) => {
+      //   resMessage.forEach((message) => {
+      //     if (message.email === userExist.email) {
+      //       Message.findOneAndUpdate(
+      //         { _id: message._id },
+      //         {
+      //           $set: {
+      //             email,
+      //             message,
+      //             username,
+      //           },
+      //         },
+      //         (err, response) => {
+      //           console.log("response messages", response);
+      //         }
+      //       );
+      //     }
+      //   });
+      // });
+      //
+      // Token.find({}, (err, resToken) => {
+      //   resToken.forEach((token) => {
+      //     if (token.email === userExist.email) {
+      //       Message.findOneAndUpdate(
+      //         { _id: token._id },
+      //         {
+      //           $set: {
+      //             email: email,
+      //             token: token.token,
+      //           },
+      //         },
+      //         (err, response) => {
+      //           console.log("response", response);
+      //         }
+      //       );
+      //     }
+      //   });
+      // });
 
       let doc1 = await Users.findOneAndUpdate(
         { _id: id },
         { $set: { username, password: userExist.password, email } },
-        { new: true },
+        { new: true, populate: "Messages" },
+
         (err, user) => {
           if (err) {
             res
               .status(400)
               .json({ success: false, error: "Can't update user!" });
           }
+
           res.json({ data: user });
         }
       );
+      doc1.populate("Messages", "username");
 
       console.log("doc1", doc1);
     });

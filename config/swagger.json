@@ -57,6 +57,21 @@
           "type": "string"
         }
       }
+    },
+    "Message": {
+      "type": "object",
+      "required": ["email", "username", "message"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
     }
   },
   "schemes": ["http", "https"],
@@ -297,6 +312,50 @@
         "responses": {
           "200": {
             "description": "Token was deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/messages": {
+      "post":{
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Create message",
+        "description": "Create new message in system",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "body",
+            "description": "Message that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Message is created",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Get all Messages in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
           }
         }
       }

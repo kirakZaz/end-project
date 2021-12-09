@@ -4,7 +4,7 @@ const user = require("./users");
 const tokensSchema = mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    email: { type: String, ref: "User" },
+    email: { type: String, ref: "Users" },
     token: String,
   },
   {
