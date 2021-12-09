@@ -7,6 +7,9 @@
     "start": "nodemon --exec babel-node app.js"
   },
   "author": "Kira Zakirova",
+  "engines": {
+    "node": ">= 16.x.x"
+  },
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
