@@ -1,7 +1,5 @@
 const Users = require("../models/users");
-const Message = require("../models/messages");
 
-const Token = require("../models/tokens");
 const validator = require("validator");
 const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
@@ -52,7 +50,6 @@ exports.create = (req, res) => {
 
     const errors = validationResult(req);
     if (errors) {
-      console.log("errors", errors);
       if (!errors.isEmpty())
         return res.status(400).json({ errors: errors.array() });
     }
@@ -83,46 +80,7 @@ exports.update = async (req, res) => {
         return;
       }
 
-      // Message.find({}, (err, resMessage) => {
-      //   resMessage.forEach((message) => {
-      //     if (message.email === userExist.email) {
-      //       Message.findOneAndUpdate(
-      //         { _id: message._id },
-      //         {
-      //           $set: {
-      //             email,
-      //             message,
-      //             username,
-      //           },
-      //         },
-      //         (err, response) => {
-      //           console.log("response messages", response);
-      //         }
-      //       );
-      //     }
-      //   });
-      // });
-      //
-      // Token.find({}, (err, resToken) => {
-      //   resToken.forEach((token) => {
-      //     if (token.email === userExist.email) {
-      //       Message.findOneAndUpdate(
-      //         { _id: token._id },
-      //         {
-      //           $set: {
-      //             email: email,
-      //             token: token.token,
-      //           },
-      //         },
-      //         (err, response) => {
-      //           console.log("response", response);
-      //         }
-      //       );
-      //     }
-      //   });
-      // });
-
-      let doc1 = await Users.findOneAndUpdate(
+      let usersRes = await Users.findOneAndUpdate(
         { _id: id },
         { $set: { username, password: userExist.password, email } },
         { new: true, populate: "Messages" },
@@ -137,9 +95,7 @@ exports.update = async (req, res) => {
           res.json({ data: user });
         }
       );
-      doc1.populate("Messages", "username");
-
-      console.log("doc1", doc1);
+      usersRes.populate("Messages", "username");
     });
   } catch (e) {
     res.status(401).json({ error: "Unauthorized action!" });

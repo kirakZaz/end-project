@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest --colors --coverage --env=jsdom"
   },
   "author": "Kira Zakirova",
   "engines": {
@@ -14,9 +15,16 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^27.4.4",
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "copy-webpack-plugin": "^10.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
     "eslint": "^8.4.0",
     "eslint-config-airbnb": "^19.0.0",
     "eslint-plugin-import": "^2.25.3",
@@ -24,18 +32,17 @@
     "eslint-plugin-mocha": "^9.0.0",
     "eslint-plugin-node": "^11.1.0",
     "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "jest": "^27.4.4",
+    "jest-config": "^27.4.4",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.1",
     "morgan": "^1.10.0",
+    "nodemon": "^2.0.3",
     "prettier": "^2.5.0",
-    "swagger-ui-express": "^4.2.0",
-    "dotenv": "^10.0.0",
-    "validator": "^13.7.0",
     "socket.io": "^4.4.0",
     "socket.io-client": "^4.4.0",
-    "babel-eslint": "^10.1.0",
-    "babel-preset-env": "^1.7.0",
-    "express-validator": "^6.13.0",
-    "jsonwebtoken": "^8.5.1",
-    "nodemon": "^2.0.3"
+    "swagger-ui-express": "^4.2.0",
+    "validator": "^13.7.0"
   }
 }

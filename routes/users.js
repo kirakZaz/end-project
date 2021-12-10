@@ -19,11 +19,7 @@ router.post(
 
 router.get("/:id", controller.findOne);
 
-router.put(
-  "/:id",
-  [userUpdateValidation],
-  controller.update
-);
+router.put("/:id", [userUpdateValidation], controller.update);
 
 router.delete("/:id", userDeleteValidation, controller.delete);
 
