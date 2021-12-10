@@ -14,7 +14,6 @@ server.set("view engine", "html");
 
 const http = require("http").createServer(server);
 const io = require("socket.io")(http);
-console.log("io", io);
 
 const logger = require("morgan");
 
@@ -68,18 +67,18 @@ function main() {
 
   server.get("/favicon.ico", (req, res) => res.status(204));
 
-  io.on("connection", function (socket) {
-    socket.on("stream", function (image) {
-      socket.broadcast.emit("stream", image);
-    });
-  });
-
-  io.on("connection", function (socket) {
-    socket.on("msg", function (data) {
-      //Send message to everyone
-      io.sockets.emit("newmsg", data);
-    });
-  });
+  // io.on("connection", function (socket) {
+  //   socket.on("stream", function (image) {
+  //     socket.broadcast.emit("stream", image);
+  //   });
+  // });
+  //
+  // io.on("connection", function (socket) {
+  //   socket.on("msg", function (data) {
+  //     //Send message to everyone
+  //     io.sockets.emit("newmsg", data);
+  //   });
+  // });
 }
 
 main();
