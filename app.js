@@ -1,8 +1,8 @@
-const dotenv = require("dotenv");
-
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const express = require("express");
+
+require("dotenv").config();
 
 const app = new express();
 const http = require("http").Server(app);
@@ -14,9 +14,6 @@ const db = require("./models");
 const mongoRouter = require("./routes");
 
 const swaggerDocument = require("./config/swagger.json");
-
-dotenv.config();
-require("dotenv").config();
 
 const hostname = process.env.DB_HOST;
 const port = process.env.PORT || 5000;
