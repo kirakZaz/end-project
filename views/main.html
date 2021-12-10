@@ -48,7 +48,8 @@
     const socket = io('', {transports : ['websocket', 'polling'] })
 
     function logger(msg){
-        $('#logger').text(msg);
+        const logger = document.getElementById('logger')
+        logger.text(msg);
     }
 
     function loadCamera(stream){
