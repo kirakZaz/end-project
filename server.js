@@ -44,7 +44,7 @@ function main() {
     })
     .then(() => {
       console.log("Connected to the database!");
-      http.listen(port, hostname, () => {
+      http.listen(port, "", () => {
         console.log(`Server running at http://${hostname}:${port}/`);
       });
     })
