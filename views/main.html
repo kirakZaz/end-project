@@ -45,7 +45,7 @@
 
     const video = document.getElementById("video");
 
-    const socket = io('http://localhost:5000',{transports : ['websocket', 'polling'] })
+    const socket = io(process.env.PORT, {transports : ['websocket', 'polling'] })
 
     function logger(msg){
         $('#logger').text(msg);
@@ -100,8 +100,7 @@
             headers: { Accept: "application/json" },
         });
         if (response.ok === true) {
-            const user = await response.json();
-            return user
+            return response.json();
         }
     }
 
@@ -112,9 +111,8 @@
         });
         if (response.ok === true) {
             const messages = await response.json();
-            console.log('messages', messages)
             const user = await GetUser(getUserFromUrl())
-            console.log('users', user)
+
             if(messages && user) {
                 messages.forEach((message) => {
                     let messageContent
