@@ -2,9 +2,10 @@
   "name": "end-project",
   "version": "1.0.0",
   "description": "end project by Kira",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Kira Zakirova",
   "engines": {

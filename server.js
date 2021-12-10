@@ -2,10 +2,10 @@ const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 
-require("dotenv").config();
+require("dotenv").config({ path: ".env" });
 
-const app = new express();
-const http = require("http").Server(app);
+const server = new express();
+const http = require("http").Server(server);
 const io = require("socket.io")(http);
 
 const logger = require("morgan");
@@ -19,21 +19,21 @@ const hostname = process.env.DB_HOST;
 const port = process.env.PORT || 5000;
 
 function main() {
-  app.use(logger("dev"));
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  server.use(logger("dev"));
+  server.use(bodyParser.json());
+  server.use(bodyParser.urlencoded({ extended: false }));
 
-  app.use(
+  server.use(
     "/swagger",
     swaggerUi.serve,
     swaggerUi.setup(swaggerDocument, { explorer: true })
   );
 
-  app.set("view engine", "html");
+  server.set("view engine", "html");
 
-  app.use(express.static(__dirname + "/views"));
+  server.use(express.static(__dirname + "/views"));
 
-  app.use("/api/", mongoRouter);
+  server.use("/api/", mongoRouter);
 
   io.on("connection", function (socket) {
     socket.on("stream", function (image) {
@@ -48,19 +48,19 @@ function main() {
     });
   });
 
-  app.get("/index.html", function (request, response) {
+  server.get("/index.html", function (request, response) {
     response.sendFile(__dirname + "/views/index.html");
   });
 
-  app.get("/main", function (request, response) {
+  server.get("/main", function (request, response) {
     response.sendFile(__dirname + "/views/main.html");
   });
 
-  app.get("/users", function (request, response) {
+  server.get("/users", function (request, response) {
     response.sendFile(__dirname + "/views/users.html");
   });
 
-  app.get("/favicon.ico", (req, res) => res.status(204));
+  server.get("/favicon.ico", (req, res) => res.status(204));
 
   db.mongoose
     .connect(db.url, {
