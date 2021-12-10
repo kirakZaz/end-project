@@ -45,7 +45,7 @@
 
     const video = document.getElementById("video");
 
-    const socket = io('ws://node-end-project.herokuapp.com:5000/socket.io/?EIO=4&transport=websocket', {transports : ['websocket', 'polling'] })
+    const socket = io('', {transports : ['websocket', 'polling'] })
 
     function logger(msg){
         $('#logger').text(msg);
