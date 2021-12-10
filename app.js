@@ -51,7 +51,7 @@ function main() {
     });
   });
 
-  app.get("/", function (request, response) {
+  app.get("/index.html", function (request, response) {
     response.sendFile(__dirname + "/views/index.html");
   });
 
@@ -62,6 +62,8 @@ function main() {
   app.get("/users", function (request, response) {
     response.sendFile(__dirname + "/views/users.html");
   });
+
+  app.get("/favicon.ico", (req, res) => res.status(204));
 
   db.mongoose
     .connect(db.url, {
