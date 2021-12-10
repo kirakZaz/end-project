@@ -13,7 +13,7 @@
 
 ### For local usage:
 ```
-$ npm install for all deps
+$ npm install
 ```
 ### And: 
 ```
