@@ -13,7 +13,7 @@ server.set("port", port);
 server.set("view engine", "html");
 
 const http = require("http").createServer(server);
-const io = require("socket.io")(process.env.PORT, http);
+const io = require("socket.io")(http);
 
 const logger = require("morgan");
 
