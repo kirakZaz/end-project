@@ -4,9 +4,9 @@ const express = require("express");
 
 require("dotenv").config({ path: ".env" });
 
-const server = new express();
-const http = require("http").Server(server);
-const io = require("socket.io")(http);
+const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io").listen(server);
 
 const logger = require("morgan");
 
