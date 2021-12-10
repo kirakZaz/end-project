@@ -3,6 +3,7 @@ const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 
 require("dotenv").config({ path: ".env" });
+
 const hostname = process.env.DB_HOST;
 const port = process.env.PORT || 5000;
 
@@ -13,6 +14,7 @@ server.set("view engine", "html");
 
 const http = require("http").createServer(server);
 const io = require("socket.io")(http);
+console.log("io", io);
 
 const logger = require("morgan");
 
