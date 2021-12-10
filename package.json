@@ -4,11 +4,12 @@
   "description": "end project by Kira",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js"
+    "start": "nodemon app.js"
   },
   "author": "Kira Zakirova",
   "engines": {
-    "node": ">= 16.x.x"
+    "node": " >= 16.13.0",
+    "npm": "8.1.0"
   },
   "license": "MIT",
   "dependencies": {
