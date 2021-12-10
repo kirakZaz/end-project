@@ -6,7 +6,7 @@ require("dotenv").config({ path: ".env" });
 
 const app = express();
 const server = require("http").createServer(app);
-const io = require("socket.io").listen(server);
+const io = require("socket.io")(server);
 
 const logger = require("morgan");
 
