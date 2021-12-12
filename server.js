@@ -1,8 +1,6 @@
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const express = require("express");
-const passport = require("passport");
-const session = require("express-session");
 
 require("dotenv").config({ path: ".env" });
 
@@ -28,17 +26,6 @@ function main() {
   server.use(logger("dev"));
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: false }));
-
-  server.use(
-    session({
-      secret: "secret",
-      saveUninitialized: true,
-      resave: true,
-    })
-  );
-
-  server.use(passport.initialize());
-  server.use(passport.session());
 
   server.use(
     "/swagger",
