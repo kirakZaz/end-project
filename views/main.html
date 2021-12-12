@@ -153,11 +153,11 @@
             if(messages && user) {
                 messages.forEach((message) => {
                     let messageContent
+
                     if(user.email === message.email) {
                         messageContent = `<div style="text-align:right"> ${message.message} <b>:${user.username}</b></div>`
                     }
                     if(user.email !== message.email) {
-
                         messageContent = `<div style="text-align:left"><b>${message.username}:</b> ${message.message}</div>`
                     }
                     document.getElementById('message-container').innerHTML += messageContent
@@ -197,8 +197,10 @@
     socket.on('newmsg', async (data) => {
         const user = await GetUser(getUserFromUrl())
 
-        if(user) {
+        if(user && (user.username === data.user)) {
         await CreateMessage(user.email,  data.message, data.user)
+            console.log('user.email,  data.message, data.user', user,  data)
+
         document.getElementById('message-container').innerHTML +=
             `<div style="text-align:right"> ${data.message} <b>:${user.username}</b></div>`
         }
