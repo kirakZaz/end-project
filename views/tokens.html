@@ -71,21 +71,6 @@
         window.location.href = `/main.html?${userId}`;
       }
 
-      async function GetTokens() {
-        const response = await fetch("api/tokens", {
-          method: "GET",
-          headers: { Accept: "application/json" },
-        });
-
-        if (response.ok === true) {
-          const tokens = await response.json();
-          let rows = document.querySelector("tbody");
-          tokens.forEach((token) => {
-            rows.append(row(token));
-          });
-        }
-      }
-
       async function GetUsers() {
         const response = await fetch("api/users", {
           method: "GET",
@@ -96,9 +81,30 @@
           const users = await response.json();
 
           createSelectionList(users);
+          return users
+        }
+      }
+
+      async function GetTokens() {
+        const response = await fetch("api/tokens", {
+          method: "GET",
+          headers: { Accept: "application/json" },
+        });
+
+        if (response.ok === true) {
+          const tokens = await response.json();
+          let rows = document.querySelector("tbody");
+
+          const users = await GetUsers()
+
           users.forEach((user) => {
-            rows.append(row(user));
-          });
+            tokens.forEach((token) => {
+              if(user.email === token.email) {
+                rows.append(row(token));
+              }
+            });
+          })
+
         }
       }
 

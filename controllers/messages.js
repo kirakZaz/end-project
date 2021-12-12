@@ -3,6 +3,7 @@ const validator = require("validator");
 const mongoose = require("mongoose");
 
 exports.findAll = (req, res) => {
+  // console.log("------", req.session);
   try {
     Messages.find({}, (err, messages) => {
       if (err)

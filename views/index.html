@@ -167,6 +167,7 @@
       clearError(err);
       if (response.ok === true) {
         const user = await response.json();
+        // await logInn(email, pass);
         window.location.href = `/main?${user._id}`;
       } else {
         const error = await response.json();

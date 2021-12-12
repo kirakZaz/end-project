@@ -8,7 +8,8 @@ const tokensSchema = mongoose.Schema(
     token: String,
   },
   {
-    versionKey: false, // Unable auto-version after persist database
+    versionKey: false,
+    timestamps: true,
   }
 );
 

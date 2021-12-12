@@ -9,7 +9,8 @@ const messagesSchema = mongoose.Schema(
     username: { type: String, ref: "Users" },
   },
   {
-    versionKey: false, // Unable auto-version after persist database
+    versionKey: false,
+    timestamps: true,
   }
 );
 

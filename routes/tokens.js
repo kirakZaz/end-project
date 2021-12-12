@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { tokenDeleteValidation, tokenCreateValidation, tokenUpdateValidation } = require('../middleware/tokensMiddleWare');
+const {
+  tokenCreateValidation,
+  tokenUpdateValidation,
+} = require("../middleware/tokensMiddleWare");
 
 const controller = require("../controllers/tokens");
 

@@ -2,10 +2,16 @@ const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 
+const errorHandler = require("errorhandler");
+const session = require("express-session");
+
+const cookieParser = require("cookie-parser");
+
 require("dotenv").config({ path: ".env" });
 
 const hostname = process.env.DB_HOST;
 const port = process.env.PORT || 5000;
+const isProduction = process.env.NODE_ENV === "production";
 
 const server = new express();
 
@@ -27,11 +33,27 @@ function main() {
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: false }));
 
+  server.set("trust proxy", 1);
+
+  server.use(
+    session({
+      secret: "treehouse loves you",
+      resave: true,
+      saveUninitialized: false,
+    })
+  );
+
+  server.use(cookieParser());
+
   server.use(
     "/swagger",
     swaggerUi.serve,
     swaggerUi.setup(swaggerDocument, { explorer: true })
   );
+
+  if (!isProduction) {
+    server.use(errorHandler());
+  }
 
   server.use(express.static(__dirname + "/views"));
 

@@ -8,26 +8,25 @@ const mongoose = require("mongoose");
 exports.signup = async (req, res) => {
   try {
     const re = /\S+@\S+\.\S+/;
-
     const { username, email, password } = req.body;
 
-    // Validate user input
     if (!(email && password && username)) {
       res.status(400).json({ message: "All input is required" });
-    }
-    if (!re.test(email)) {
-      res.status(400).json({ message: "Email is not correct" });
+      return;
     }
 
-    // check if user already exist
-    // Validate if user exist in our database
+    if (!re.test(email)) {
+      res.status(400).json({ message: "Email is not correct" });
+      return;
+    }
+
     const oldUser = await User.findOne({ email });
 
     if (oldUser) {
-      return res
-        .status(409)
-        .json({ message: "User Already Exist. Please Login" });
+      res.status(409).json({ message: "User Already Exist. Please Login" });
+      return;
     }
+
     let _id = mongoose.Types.ObjectId();
     const user = await User.create({
       _id,
@@ -39,7 +38,6 @@ exports.signup = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.TOKEN_KEY, {
       expiresIn: 86400, // 24 hours
     });
-    res.cookie("user", user._id);
 
     await Token.create({
       _id: mongoose.Types.ObjectId(),
@@ -51,7 +49,14 @@ exports.signup = async (req, res) => {
     user.token = token;
 
     // return new user
-    res.status(201).json(user);
+    req.session.user = { ...req.session, user: user._id };
+    res
+      .status(201)
+      .cookie("userId", user._id, {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json(user);
   } catch (err) {
     console.log(err);
   }
@@ -60,6 +65,7 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
   try {
     // Get user input
+
     const { email, password } = req.body;
 
     // Validate user input
@@ -69,6 +75,7 @@ exports.signin = async (req, res) => {
     // Validate if user exist in our database
     const user = await User.findOne({ email });
 
+    // req.session.admin = true;
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
@@ -89,10 +96,29 @@ exports.signin = async (req, res) => {
       user.token = token;
 
       // user
-      res.status(200).json(user);
+
+      req.session.user = { ...req.session, user: user._id };
+      res
+        .status(201)
+        .cookie("userId", user._id, {
+          httpOnly: false,
+          secure: process.env.NODE_ENV === "production",
+        })
+        .json(user);
+    } else {
+      res.status(400).json({ message: "Invalid Credentials" });
     }
-    res.status(400).json({ message: "Invalid Credentials" });
   } catch (err) {
     console.log(err);
+  }
+};
+
+exports.logout = async (req, res) => {
+  if (req.cookies.userId) {
+    delete req.session.user;
+    res.clearCookie("userId");
+    res.json({ result: "SUCCESS" });
+  } else {
+    res.json({ result: "ERROR", message: "User is not logged in." });
   }
 };

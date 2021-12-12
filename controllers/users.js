@@ -104,6 +104,7 @@ exports.update = async (req, res) => {
 
 exports.delete = (req, res) => {
   try {
+    console.log("req.params.id", req.params.id);
     const _id = req.params.id || null;
     if (_id) {
       Users.deleteOne({ _id }, (err) => {

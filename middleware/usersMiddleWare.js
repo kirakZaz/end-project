@@ -66,10 +66,14 @@ exports.userUpdateValidation = (req, res, next) => {
         (userExist) => userExist.username === req.body.username
       );
 
-      if(user.username !== req.body.username && !!userExist && userExist.username === req.body.username){
+      if (
+        user.username !== req.body.username &&
+        !!userExist &&
+        userExist.username === req.body.username
+      ) {
         res
-            .status(400)
-            .json({ message: "Failed!!! Username is already in use!" });
+          .status(400)
+          .json({ message: "Failed!!! Username is already in use!" });
         return;
       }
 
@@ -81,11 +85,15 @@ exports.userUpdateValidation = (req, res, next) => {
           res.status(500).json({ message: err });
           return;
         }
-        console.log('user', user);
-        if(user.email !== req.body.email && !!userExist && userExist.email === req.body.email){
+
+        if (
+          user.email !== req.body.email &&
+          !!userExist &&
+          userExist.email === req.body.email
+        ) {
           res
-              .status(400)
-              .json({ message: "Failed!!! Email is already in use!" });
+            .status(400)
+            .json({ message: "Failed!!! Email is already in use!" });
           return;
         }
         next();
@@ -97,7 +105,7 @@ exports.userUpdateValidation = (req, res, next) => {
 exports.userDeleteValidation = (req, res, next) => {
   // Username
   User.findOne({
-    _id: req.body._id,
+    _id: req.params.id,
   }).exec((err, user) => {
     if (err) {
       res.status(500).json({ message: err });

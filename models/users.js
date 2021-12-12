@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const message = require("./messages");
 
 const usersSchema = mongoose.Schema(
   {
@@ -10,7 +9,8 @@ const usersSchema = mongoose.Schema(
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Messages" }],
   },
   {
-    versionKey: false, // Unable auto-version after persist database
+    versionKey: false,
+    timestamps: true,
   }
 );
 

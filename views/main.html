@@ -14,6 +14,7 @@
     </span>
     <button class="linkText" onclick="goToUsers()">Users</button>
     <button class="linkText" onclick="goToTokens()">Tokens</button>
+    <button class="linkText" onclick="logout()">Logout</button>
 </header>
 <div class="mainDiv">
     <div class="videoDiv">
@@ -84,9 +85,25 @@
     })();
 
     // ----- messages -----
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
     const getUserFromUrl = () => {
-        const queryString = window.location.search;
-        return queryString.replace('?', '')
+        const y = getCookie('userId').split('"')
+        return  y[1]
     }
 
     const goToUsers = () => {
@@ -97,6 +114,23 @@
         const userId = getUserFromUrl()
         window.location.href = `/tokens.html?${userId}`;
     }
+
+    async function logout() {
+        try {
+            const response = await fetch('api/auth/logout');
+            const data = await response.json();
+            if (data.result === 'SUCCESS') {
+                console.log('User logout operation success.');
+                window.location.href = `/index.html`;
+                // location.reload();
+            } else {
+                console.log('User logout operation error (message: ' + data.message + ').');
+            }
+        } catch(e) {
+            console.error('Request error!',e);
+        }
+    }
+
     async function GetUser(id) {
         const response = await fetch("/api/users/" + id, {
             method: "GET",
