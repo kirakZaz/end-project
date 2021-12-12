@@ -173,6 +173,13 @@ div#logger {
     padding-left: 2%;
     display: flex;
     flex-flow: column;
+    max-height: 450px;
+}
+
+.message-container-wrapper {
+    height: 100%;
+    overflow-y: scroll;
+    background: #e98074;
 }
 
 div#message-container {
@@ -183,6 +190,7 @@ div#message-container {
     flex-flow: column;
     justify-content: end;
     padding: 10px;
+    height: auto;
 }
 
 .chatDiv .chatForm {

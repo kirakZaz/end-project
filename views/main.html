@@ -21,7 +21,9 @@
         <div id="logger" class="logger"></div>
     </div>
     <div class="chatDiv">
-        <div id="message-container"></div>
+        <div class="message-container-wrapper">
+            <div id="message-container"></div>
+        </div>
         <div class="chatForm">
             <input placeholder="write a message" type="text" id="message">
             <button type="button" name="button" onclick="sendMessage()">Send</button>
@@ -49,7 +51,7 @@
 
     function logger(msg){
         const logger = document.getElementById('logger')
-        logger.text(msg);
+        logger.innerText = msg;
     }
 
     function loadCamera(stream){
