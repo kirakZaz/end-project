@@ -2,7 +2,6 @@ const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 
-const errorHandler = require("errorhandler");
 const session = require("express-session");
 
 const cookieParser = require("cookie-parser");
@@ -11,7 +10,6 @@ require("dotenv").config({ path: ".env" });
 
 const hostname = process.env.DB_HOST;
 const port = process.env.PORT || 5000;
-const isProduction = process.env.NODE_ENV === "production";
 
 const server = new express();
 
@@ -50,10 +48,6 @@ function main() {
     swaggerUi.serve,
     swaggerUi.setup(swaggerDocument, { explorer: true })
   );
-
-  if (!isProduction) {
-    server.use(errorHandler());
-  }
 
   server.use(express.static(__dirname + "/views"));
 
