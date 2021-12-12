@@ -116,6 +116,7 @@ exports.signin = async (req, res) => {
 exports.logout = async (req, res) => {
   if (req.cookies.userId) {
     delete req.session.user;
+
     res.clearCookie("userId");
     res.json({ result: "SUCCESS" });
   } else {

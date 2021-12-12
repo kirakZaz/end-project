@@ -22,7 +22,7 @@
         <div id="logger" class="logger"></div>
     </div>
     <div class="chatDiv">
-        <div class="message-container-wrapper">
+        <div class="message-container-wrapper" id="message-container-wrapper">
             <div id="message-container"></div>
         </div>
         <div class="chatForm">
@@ -161,9 +161,15 @@
                         messageContent = `<div style="text-align:left"><b>${message.username}:</b> ${message.message}</div>`
                     }
                     document.getElementById('message-container').innerHTML += messageContent
+                    scrollToBottom('message-container-wrapper')
                 });
             }
         }
+    }
+
+    function scrollToBottom (id) {
+        const div = document.getElementById(id);
+        div.scrollTop = div.scrollHeight - div.clientHeight;
     }
 
     async function CreateMessage(email, message, username) {
@@ -199,10 +205,10 @@
 
         if(user && (user.username === data.user)) {
         await CreateMessage(user.email,  data.message, data.user)
-            console.log('user.email,  data.message, data.user', user,  data)
 
         document.getElementById('message-container').innerHTML +=
             `<div style="text-align:right"> ${data.message} <b>:${user.username}</b></div>`
+            scrollToBottom('message-container-wrapper')
         }
         const msg = document.getElementById('message');
         msg.value = ''

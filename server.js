@@ -89,10 +89,18 @@ function main() {
     });
   });
 
+  let connections = [];
+
   io.on("connection", function (socket) {
+    connections.push(socket);
     socket.on("msg", function (data) {
       //Send message to everyone
       io.sockets.emit("newmsg", data);
+    });
+
+    socket.on("disconnect", function (data) {
+      connections.splice(connections.indexOf(socket), 1);
+      console.log("disconnected");
     });
   });
 }
